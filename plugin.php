@@ -4,7 +4,7 @@ Plugin Name: Crazy Bone
 Plugin URI: https://github.com/wokamoto/crazy-bone
 Description: Tracks user name, time of login, IP address and browser user agent.
 Author: wokamoto
-Version: 0.5.4
+Version: 0.5.5
 Author URI: http://dogmap.jp/
 Text Domain: user-login-log
 Domain Path: /languages/
@@ -13,7 +13,7 @@ License:
  Released under the GPL license
   http://www.gnu.org/copyleft/gpl.html
 
-  Copyright 2013-2014 (email : wokamoto1973@gmail.com)
+  Copyright 2013-2015 (email : wokamoto1973@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -600,7 +600,7 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 			$start = (intval($page) - 1) * intval($per_page);
 
 		$page_links = paginate_links( array(
-			'base'      => add_query_arg( 'apage', '%#%' ) ,
+			'base'      => add_query_arg( 'paged', '%#%' ) ,
 			'format'    => '' ,
 			'prev_text' => __('&laquo;') ,
 			'next_text' => __('&raquo;') ,
@@ -694,7 +694,7 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 		$total = intval($wpdb->get_var("SELECT count(`{$this->ull_table}`.`ID`) {$sql}"));
 
 		// Pagination
-		$page = abs(intval(isset($_GET['apage']) ? $_GET['apage'] : 1));
+		$page = abs(intval(isset($_GET['paged']) ? $_GET['paged'] : 1));
 		$start = ($page - 1) * self::LIST_PER_PAGE;
 		$page_links_text = $this->get_pagenation($total, self::LIST_PER_PAGE, $page, $start);
 
@@ -808,11 +808,11 @@ $user_login =
 	(is_array($errors) && isset($errors['user_login']))
 	? $errors['user_login']
 	: $row->user_login;
-$password = 
+$password =
 	(is_array($errors) && isset($errors['user_login']) && isset($errors['user_password']))
 	? "{$errors['user_login']} / {$errors['user_password']}"
 	: '';
-$errors = 
+$errors =
 	(is_array($errors) && isset($errors['errors']))
 	? implode(', ', array_keys($errors['errors']))
 	: '';
@@ -869,7 +869,7 @@ if ($errors != 'invalid_username')
 		$total = intval($wpdb->get_var("SELECT count(*) from ({$sql}) as log"));
 
 		// Pagination
-		$page = abs(intval(isset($_GET['apage']) ? $_GET['apage'] : 1));
+		$page = abs(intval(isset($_GET['paged']) ? $_GET['paged'] : 1));
 		$start = ($page - 1) * self::LIST_PER_PAGE;
 		$page_links_text = $this->get_pagenation($total, self::LIST_PER_PAGE, $page, $start);
 
@@ -947,11 +947,11 @@ $user_login =
 	(is_array($errors) && isset($errors['user_login']))
 	? $errors['user_login']
 	: $row->user_login;
-$password = 
+$password =
 	(is_array($errors) && isset($errors['user_login']) && isset($errors['user_password']))
 	? "{$errors['user_login']} / {$errors['user_password']}"
 	: '';
-$errors = 
+$errors =
 	(is_array($errors) && isset($errors['errors']))
 	? implode(', ', array_keys($errors['errors']))
 	: '';
